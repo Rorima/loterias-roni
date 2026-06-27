@@ -117,7 +117,6 @@ export function GameProvider({
   useEffect(() => {
     const interval = setInterval(() => {
       setGameData((data) => {
-        const usedNames = data.stocks.map((s) => s.name);
         const updatedStocks = data.stocks.map((stock) => {
           const change = stock.trend + (Math.random() - 0.5) * stock.volatility * 2;
           const newIndex = Math.max(0, Math.min(100, stock.index + change * 10));
