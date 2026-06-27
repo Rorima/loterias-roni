@@ -1,0 +1,46 @@
+Arquitetura:
+
+loterias-roni/
+-node_modules/
+-public/
+-src/
+  -assets/
+  -components/
+    -Header.css
+    -Header.tsx
+    -Layout.css
+    -Layout.tsx
+    -Navigation.css
+    -Navigation.tsx
+  -constants/
+    -game.ts
+  -context/
+    -GameContext.tsx
+  -hooks/
+    -useGame.ts
+  -models/
+    -GameData.ts
+  -pages/
+    -BettingPage.tsx
+    -FixedIncomePage.tsx
+    -HomePage.tsx
+    -StatisticsPage.tsx
+    -StocksPage.tsx
+  -services/
+    -Storage.ts
+  -styles/
+  -utils/
+  -App.tsx
+  -main.tsx
+  -routes.tsx
+-.gitignore
+-eslint.config.js
+-index.html
+-package-lock.json
+-package.json
+-README.md
+-TODO.md
+-tsconfig.app.json
+-tsconfig.json
+-tsconfig.node.json
+-vite.config.ts

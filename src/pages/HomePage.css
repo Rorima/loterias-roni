@@ -1,0 +1,42 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 24px;
+  padding: 40px 20px;
+}
+
+.home-hint {
+  color: #888;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.click-area {
+  width: 200px;
+  height: 200px;
+  border-radius: 50% !important;
+  font-size: 4rem !important;
+  background: #1a1a2e !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 20px rgba(26, 26, 46, 0.3);
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.click-label {
+  font-size: 1rem !important;
+  color: #aaa;
+}
+
+.home-clicks {
+  color: #555;
+  font-size: 0.85rem;
+  margin: 0;
+}
