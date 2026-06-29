@@ -54,6 +54,8 @@ export default function FixedIncomePage() {
       >
         Resgatar tudo
       </button>
+
+      <p>OBS.: A taxa de rendimentos é de 0,001 por segundo.</p>
     </div>
   );
 }

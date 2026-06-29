@@ -13,6 +13,7 @@ export default function BettingPage() {
     const value = parseInt(amount);
     if (isNaN(value) || value <= 0) return;
 
+    if (value > availablePoints) return;
     const won = placeBet(value, selectedMultiplier);
     setLastResult({ won, amount: value, multiplier: selectedMultiplier });
     setAmount("");
@@ -32,23 +33,25 @@ export default function BettingPage() {
           className={selectedMultiplier === b.multiplier ? "" : "secondary"}
           style={{ marginRight: 8, marginBottom: 8 }}
         >
-          {b.multiplier}x ({(b.chance * 100).toFixed(0)}%)
+          {b.multiplier}x
         </button>
       ))}
       </div>
 
       <br />
 
-      <input
-        type="number"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-        placeholder="Quantidade"
-      />
-
-      <button onClick={handleBet} style={{ marginLeft: 10 }}>
-        Apostar
-      </button>
+      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+        <input
+          type="number"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          placeholder="Quantidade"
+          style={{ width: 100 }}
+        />
+        <button onClick={handleBet}>
+          Apostar
+        </button>
+      </div>
 
       {lastResult && (
         <p>

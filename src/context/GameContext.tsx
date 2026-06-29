@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { FIXED_INCOME_RATE_PER_SECOND, BETTING_MULTIPLIERS, STOCK_TEMPLATES, STOCK_UPDATE_INTERVAL_MS } from "../constants/game";
+import { FIXED_INCOME_RATE_PER_SECOND, BETTING_MULTIPLIERS, STOCK_TEMPLATES, STOCK_UPDATE_INTERVAL_MS, STOCK_HISTORY_LENGTH, STOCK_INITIAL_HISTORY_LENGTH } from "../constants/game";
 
 type GameData = {
   totalBet: number;
@@ -13,6 +13,7 @@ type GameData = {
   totalClicks: number;
   fixedIncome: number;
   fixedIncomeProfit: number;
+  fixedIncomeAccumulator: number;
   stocks: Stock[];
   holdings: StockHolding[];
   stockProfit: number;
@@ -59,6 +60,7 @@ const defaultData: GameData = {
   totalClicks: 0,
   fixedIncome: 0,
   fixedIncomeProfit: 0,
+  fixedIncomeAccumulator: 0,
   stocks: [],
   holdings: [],
   stockProfit: 0,
@@ -98,15 +100,20 @@ export function GameProvider({
       setGameData((data) => {
         if (data.fixedIncome <= 0) return data;
 
-        const profit = Math.floor(data.fixedIncome * FIXED_INCOME_RATE_PER_SECOND);
+        const earned = data.fixedIncome * FIXED_INCOME_RATE_PER_SECOND;
+        const newAccumulator = data.fixedIncomeAccumulator + earned;
+        const wholePart = Math.floor(newAccumulator);
 
-        if (profit <= 0) return data;
+        if (wholePart < 1) {
+          return { ...data, fixedIncomeAccumulator: newAccumulator };
+        }
 
         return {
           ...data,
-          totalPoints: data.totalPoints + profit,
-          availablePoints: data.availablePoints + profit,
-          fixedIncomeProfit: data.fixedIncomeProfit + profit,
+          totalPoints: data.totalPoints + wholePart,
+          availablePoints: data.availablePoints + wholePart,
+          fixedIncomeProfit: data.fixedIncomeProfit + wholePart,
+          fixedIncomeAccumulator: newAccumulator - wholePart,
         };
       });
     }, 1000);
@@ -118,12 +125,13 @@ export function GameProvider({
     const interval = setInterval(() => {
       setGameData((data) => {
         const updatedStocks = data.stocks.map((stock) => {
-          const change = stock.trend + (Math.random() - 0.5) * stock.volatility * 2;
+          const meanReversion = (50 - stock.index) * 0.03;
+          const change = stock.trend + meanReversion + (Math.random() - 0.5) * stock.volatility * 2;
           const newIndex = Math.max(0, Math.min(100, stock.index + change * 10));
           return {
             ...stock,
             index: Math.round(newIndex * 100) / 100,
-            history: [...stock.history.slice(-19), stock.index],
+            history: [...stock.history.slice(-(STOCK_HISTORY_LENGTH - 1)), stock.index],
           };
         });
 
@@ -174,14 +182,23 @@ export function GameProvider({
     const pool = available.length > 0 ? available : STOCK_TEMPLATES;
     const template = pool[Math.floor(Math.random() * pool.length)];
 
+    const startIndex = Math.floor(Math.random() * 40) + 40;
+    const history: number[] = [startIndex];
+    for (let i = 1; i < STOCK_INITIAL_HISTORY_LENGTH; i++) {
+      const prev = history[i - 1];
+      const change = template.trend + (Math.random() - 0.5) * template.volatility * 2;
+      const next = Math.max(1, Math.min(100, prev + change * 10));
+      history.push(Math.round(next * 100) / 100);
+    }
+
     return {
       id: crypto.randomUUID(),
       name: template.name,
       color: template.color,
       trend: template.trend,
       volatility: template.volatility,
-      index: Math.floor(Math.random() * 40) + 40,
-      history: [],
+      index: history[history.length - 1],
+      history,
     };
   }
 

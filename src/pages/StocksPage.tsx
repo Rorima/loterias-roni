@@ -78,20 +78,22 @@ export default function StocksPage() {
             )}
 
             {/* Ações */}
-            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-              <input
-                type="number"
-                min="1"
-                placeholder="Cotas"
-                value={quantities[stock.id] || ""}
-                onChange={(e) => handleQuantityChange(stock.id, e.target.value)}
-                style={{ width: 80 }}
-              />
-              <button onClick={() => handleBuy(stock.id)} disabled={cost > availablePoints || qty <= 0}>
-                Comprar {cost > 0 ? `(${cost}pts)` : ""}
-              </button>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                <input
+                  type="number"
+                  min="1"
+                  placeholder="Cotas"
+                  value={quantities[stock.id] || ""}
+                  onChange={(e) => handleQuantityChange(stock.id, e.target.value)}
+                  style={{ width: 80 }}
+                />
+                <button onClick={() => handleBuy(stock.id)} disabled={cost > availablePoints || qty <= 0}>
+                  Comprar {cost > 0 ? `(${cost}pts)` : ""}
+                </button>
+              </div>
               {holding && (
-                <button onClick={() => sellStock(stock.id)}>
+                <button onClick={() => sellStock(stock.id)} className="danger">
                   Vender tudo {revenue > 0 ? `(${revenue}pts)` : ""}
                 </button>
               )}
