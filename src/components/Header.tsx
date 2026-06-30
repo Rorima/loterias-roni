@@ -1,5 +1,6 @@
 import "./Header.css";
 import { useGame } from "../context/GameContext";
+import { formatPoints } from "../utils/format";
 
 export default function Header() {
   const { totalPoints, availablePoints } = useGame();
@@ -11,12 +12,12 @@ export default function Header() {
       <div className="stats">
         <div>
           <span className="label">Patrimônio</span>
-          <strong>{totalPoints} pontos</strong>
+          <strong>{formatPoints(totalPoints)} pontos</strong>
         </div>
 
         <div>
           <span className="label">Saldo disponível</span>
-          <strong>{availablePoints} pontos</strong>
+          <strong>{formatPoints(availablePoints)} pontos</strong>
         </div>
       </div>
     </header>

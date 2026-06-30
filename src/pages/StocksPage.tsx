@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useGame } from "../context/GameContext";
+import { formatPoints } from "../utils/format";
 
 export default function StocksPage() {
   const { stocks, holdings, availablePoints, buyStock, sellStock } = useGame();
@@ -23,7 +24,7 @@ export default function StocksPage() {
   return (
     <div>
       <h2>📈 Bolsa</h2>
-      <p>Saldo disponível: {availablePoints}</p>
+      <p>Saldo disponível: {formatPoints(availablePoints)}</p>
 
       {stocks.map((stock) => {
         const holding = getHolding(stock.id);

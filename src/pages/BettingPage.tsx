@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useGame } from "../context/GameContext";
 import { BETTING_MULTIPLIERS } from "../constants/game";
+import { formatPoints } from "../utils/format";
 
 export default function BettingPage() {
   const { availablePoints, placeBet } = useGame();
@@ -23,7 +24,7 @@ export default function BettingPage() {
     <div>
       <h2>🎰 Apostas</h2>
 
-      <p>Saldo disponível: {availablePoints}</p>
+      <p>Saldo disponível: {formatPoints(availablePoints)}</p>
 
       <div>
         {BETTING_MULTIPLIERS.map((b) => (
@@ -56,8 +57,8 @@ export default function BettingPage() {
       {lastResult && (
         <p>
           {lastResult.won
-            ? `✅ Ganhou! +${lastResult.amount * lastResult.multiplier} pontos`
-            : `❌ Perdeu! -${lastResult.amount} pontos`}
+            ? `✅ Ganhou! +${formatPoints(lastResult.amount * lastResult.multiplier)} pontos`
+            : `❌ Perdeu! -${formatPoints(lastResult.amount)} pontos`}
         </p>
       )}
     </div>

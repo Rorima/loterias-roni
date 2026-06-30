@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useGame } from "../context/GameContext";
+import { formatPoints } from "../utils/format";
 
 export default function FixedIncomePage() {
   const {
@@ -16,11 +17,11 @@ export default function FixedIncomePage() {
     <div>
       <h2>🏦 Renda Fixa</h2>
 
-      <p>Saldo disponível: {availablePoints}</p>
+      <p>Saldo disponível: {formatPoints(availablePoints)}</p>
 
-      <p>Investido: {fixedIncome}</p>
+      <p>Investido: {formatPoints(fixedIncome)}</p>
 
-      <p>Lucro acumulado: {fixedIncomeProfit}</p>
+      <p>Lucro acumulado: {formatPoints(fixedIncomeProfit)}</p>
 
       <input
         type="number"
