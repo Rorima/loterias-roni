@@ -5,6 +5,9 @@ import { RouterProvider } from "react-router-dom";
 import { GameProvider } from "./context/GameContext";
 import { router } from "./routes";
 import "./styles/buttons.css";
+import { registerSW } from "virtual:pwa-register";
+
+registerSW({ immediate: true });
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
